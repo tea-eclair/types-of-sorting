@@ -1,69 +1,60 @@
-function BubbleSort(A)       // A - массив, который нужно
-{                            // отсортировать по возрастанию.
-    var n = A.length;
-    for (var i = 0; i < n-1; i++)
-     { for (var j = 0; j < n-1-i; j++)
-        { if (A[j+1] < A[j])
-           { var t = A[j+1]; A[j+1] = A[j]; A[j] = t; }
-        }
-     }                     
-    return A;    // На выходе сортированный по возрастанию массив A.
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sorting Demo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
 
+  <h2>Sorting Demo</h2>
 
-function SelectionSort(A)       // A - массив, который нужно
-{                               // отсортировать по возрастанию.
-    var n = A.length;
-    for (var i = 0; i < n-1; i++)
-     { var min = i;
-       for (var j = i+1; j < n; j++)
-        { if (A[j] < A[min]) min = j; } 
-       var t = A[min]; A[min] = A[ i ]; A[ i ] = t;
-     }                    
-    return A;    // На выходе сортированный по возрастанию массив A.
-}
+  <label for="sortAlgorithm">Select Sorting Algorithm:</label>
+  <select id="sortAlgorithm">
+    <option value="bubble">Bubble Sort</option>
+    <option value="selection">Selection Sort</option>
+    <option value="insertion">Insertion Sort</option>
+    <option value="shell">Shell Sort</option>
+    <option value="SimpleCounting">Simple Counting Sort</option>
+    <!-- Добавьте другие алгоритмы по мере необходимости -->
+  </select>
 
+  <br>
 
-function InsertionSort(A)       // A - массив, который нужно
-{                               // отсортировать по возрастанию.
-    var n = A.length;
-    for (var i = 0; i < n; i++)
-     { var v = A[ i ], j = i-1;
-       while (j >= 0 && A[j] > v)
-        { A[j+1] = A[j]; j--; }
-       A[j+1] = v;
-     }                    
-    return A;    // На выходе сортированный по возрастанию массив A.
-}
+  <label for="userInput">Enter numbers (comma-separated):</label>
+  <input type="text" id="userInput" placeholder="e.g., 64, 25, 12, 22, 11">
 
+  <br>
 
-function ShellSort(A)
-{
-    var n = A.length, i = Math.floor(n/2);
-    while (i > 0)
-     { for (var j = 0; j < n; j++)
-        { var k = j, t = A[j];
-          while (k >= i && A[k-i] > t)
-           { A[k] = A[k-i]; k -= i; }
-          A[k] = t;
-        }
-      i = (i==2) ? 1 : Math.floor(i*5/11);
-     }
-    return A;
-}
+  <button onclick="sortUserInput()">Sort</button>
 
-function SimpleCountingSort(A)
-{   
-    var n = A.length, Count = [], B = [];
-    for (var i = 0; i < n; i++) Count[ i ] = 0;
-    for (var i = 0; i < n-1; i++)
-     { for (var j = i+1; j < n; j++)
-        { if (A[ i ] < A[j]) Count[j]++;
-          else Count[ i ]++;
-        }
-     }
-    for (var i = 0; i < n; i++) B[Count[ i ]] = A[ i ];
-    return B;
-}
+  <div id="output">
+    <!-- Результат сортировки будет отображаться здесь -->
+  </div>
 
+  <script>
+    function sortUserInput() {
+      var sortAlgorithm = document.getElementById('sortAlgorithm').value;
+      var userInput = document.getElementById('userInput').value;
+      var arrayToSort = userInput.split(',').map(Number);
 
+      fetch('/api/sort', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ algorithm: sortAlgorithm, numbers: arrayToSort }),
+      })
+        .then(response => response.json())
+        .then(data => displayResult(data));
+    }
+
+    function displayResult(sortedArray) {
+      var outputDiv = document.getElementById('output');
+      outputDiv.textContent = 'Sorted Array: ' + sortedArray.join(', ');
+    }
+  </script>
+
+</body>
+</html>
