@@ -65,5 +65,3 @@ function SimpleCountingSort(A)
     for (var i = 0; i < n; i++) B[Count[ i ]] = A[ i ];
     return B;
 }
-
-
