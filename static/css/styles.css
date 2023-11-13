@@ -1,0 +1,14 @@
+/* Добавьте стили по вашему усмотрению */
+body {
+  font-family: Arial, sans-serif;
+}
+
+button {
+  margin: 5px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+#output {
+  margin-top: 20px;
+}
