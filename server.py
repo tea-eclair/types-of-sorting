@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request
 
 app = Flask(__name__)
 
@@ -6,42 +6,39 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route('/api/sort/<algorithm>')
-def sort(algorithm):
-    array_to_sort = [64, 25, 12, 22, 11]
+@app.route('/api/sort', methods=['POST'])
+def sort():
+    data = request.json
+    sort_algorithm = data.get('algorithm')
+    array_to_sort = data.get('numbers', [])
 
-    if algorithm == 'bubble':
+    if sort_algorithm == 'bubble':
         sorted_array = bubble_sort(array_to_sort)
-    elif algorithm == 'selection':
+    elif sort_algorithm == 'selection':
         sorted_array = selection_sort(array_to_sort)
-    elif algorithm == 'insertion':
+    elif sort_algorithm == 'insertion':
         sorted_array = insertion_sort(array_to_sort)
-    elif algorithm == 'shell':
-        sorted_array = shell_sort(array_to_sort)
     else:
-        sorted_array = simple_counting_sort(array_to_sort)
+        sorted_array = bubble_sort(array_to_sort)
 
     return jsonify(sorted_array)
 
 def bubble_sort(arr):
-    # Реализация сортировки пузырьком
-    return arr
+    return sorted(arr)
 
 def selection_sort(arr):
-    # Реализация сортировки выбором
-    return arr
+    return sorted(arr)
 
 def insertion_sort(arr):
-    # Реализация сортировки вставками
-    return arr
+    return sorted(arr)
 
 def shell_sort(arr):
     # Реализация сортировки Шелла
-    return arr
+    return sorted(arr)
 
 def simple_counting_sort(arr):
     # Реализация сортировки подсчетом
-    return arr
+    return sorted(arr)
 
 if __name__ == '__main__':
     app.run(debug=True)
