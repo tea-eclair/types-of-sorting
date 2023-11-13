@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sorting Demo</title>
+  <style>
+    /* Добавьте стили по вашему усмотрению */
+  </style>
+</head>
+<body>
+
+  <h2>Sorting Demo</h2>
+
+  <button onclick="sortArray('bubble')">Bubble Sort</button>
+  <button onclick="sortArray('selection')">Selection Sort</button>
+  <button onclick="sortArray('insertion')">Insertion Sort</button>
+
+  <div id="output">
+    <!-- Результат сортировки будет отображаться здесь -->
+  </div>
+
+  <script>
+    // Ваши функции сортировки здесь
+    function bubbleSort(arr) {
+      // Реализация сортировки пузырьком
+    }
+
+    function selectionSort(arr) {
+      // Реализация сортировки выбором
+    }
+
+    function insertionSort(arr) {
+      // Реализация сортировки вставками
+    }
+
+    // Функция для вызова соответствующей функции сортировки
+    function sortArray(algorithm) {
+      var arrayToSort = [64, 25, 12, 22, 11];
+
+      switch (algorithm) {
+        case 'bubble':
+          arrayToSort = bubbleSort(arrayToSort);
+          break;
+        case 'selection':
+          arrayToSort = selectionSort(arrayToSort);
+          break;
+        case 'insertion':
+          arrayToSort = insertionSort(arrayToSort);
+          break;
+        // Добавьте дополнительные виды сортировок по мере необходимости
+        default:
+          // По умолчанию используйте сортировку пузырьком
+          arrayToSort = bubbleSort(arrayToSort);
+          break;
+      }
+
+      displayResult(arrayToSort);
+    }
+
+    // Функция для отображения отсортированного массива
+    function displayResult(sortedArray) {
+      var outputDiv = document.getElementById('output');
+      outputDiv.textContent = 'Sorted Array: ' + sortedArray.join(', ');
+    }
+
+    // Инициализация - по умолчанию используется сортировка пузырьком
+    sortArray('bubble');
+  </script>
+
+</body>
+</html>
