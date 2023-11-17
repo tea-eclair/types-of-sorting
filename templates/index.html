@@ -3,58 +3,74 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sorting Demo</title>
+  <title>Сортировщик чисел</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <h2>Sorting Demo</h2>
+  <h2>Сортировщик чисел</h2>
 
-  <label for="sortAlgorithm">Select Sorting Algorithm:</label>
+  <label for="sortAlgorithm">Выберите алгоритм сортировки:</label>
   <select id="sortAlgorithm">
-    <option value="bubble">Bubble Sort</option>
-    <option value="selection">Selection Sort</option>
-    <option value="insertion">Insertion Sort</option>
-    <option value="shell">Shell Sort</option>
-    <option value="SimpleCounting">Simple Counting Sort</option>
+    <option value="bubble">Пузырьковая сортировка</option>
+    <option value="selection">Сортировка выбором</option>
+    <option value="insertion">Сортировка вставками</option>
+    <option value="shell">Сортировка Шелла</option>
+    <option value="SimpleCounting">Простая сортировка подсчетом</option>
     <!-- Добавьте другие алгоритмы по мере необходимости -->
   </select>
 
   <br>
 
-  <label for="userInput">Enter numbers (comma-separated):</label>
-  <input type="text" id="userInput" placeholder="e.g., 64, 25, 12, 22, 11">
+  <label for="userInput">Введите числа (через запятую):</label>
+  <input type="text" id="userInput" placeholder="Например, 64, 25, 12, 22, 11">
 
   <br>
 
-  <button onclick="sortUserInput()">Sort</button>
+  <button onclick="sortUserInput()">Сортировать</button>
 
   <div id="output">
     <!-- Результат сортировки будет отображаться здесь -->
   </div>
 
-  <script>
-    function sortUserInput() {
+  <!-- Add this script to your HTML file -->
+<script>
+  function sortUserInput() {
       var sortAlgorithm = document.getElementById('sortAlgorithm').value;
       var userInput = document.getElementById('userInput').value;
       var arrayToSort = userInput.split(',').map(Number);
 
       fetch('/api/sort', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ algorithm: sortAlgorithm, numbers: arrayToSort }),
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ algorithm: sortAlgorithm, numbers: arrayToSort }),
       })
-        .then(response => response.json())
-        .then(data => displayResult(data));
-    }
+      .then(response => response.json())
+      .then(data => displayResult(data));
+  }
 
-    function displayResult(sortedArray) {
+  function displayResult(result) {
       var outputDiv = document.getElementById('output');
-      outputDiv.textContent = 'Sorted Array: ' + sortedArray.join(', ');
-    }
-  </script>
+      outputDiv.innerHTML = '';  // Clear previous content
+
+      // Display sorted array
+      var sortedArray = result.sorted_array;
+      var sortedArrayDiv = document.createElement('div');
+      sortedArrayDiv.textContent = 'Sorted Array: ' + sortedArray.join(', ');
+      outputDiv.appendChild(sortedArrayDiv);
+
+      // Display steps
+      var steps = result.steps;
+      for (var i = 0; i < steps.length; i++) {
+          var stepDiv = document.createElement('div');
+          stepDiv.textContent = 'Step ' + (i + 1) + ': ' + steps[i].join(', ');
+          outputDiv.appendChild(stepDiv);
+      }
+  }
+</script>
+
 
 </body>
 </html>
